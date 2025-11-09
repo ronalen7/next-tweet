@@ -1,0 +1,109 @@
+# Node / package managers
+node_modules/
+.pnp.*
+.yarn/
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+
+# Next.js build output
+.next/
+out/
+build/
+
+# Production environment files
+.env
+.env.local
+.env.*.local
+
+# Local dotenv files created by some tools
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Next.js
+.next/cache
+
+# VSCode and editor settings
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test coverage and temp
+coverage/
+.nyc_output/
+jest.cache
+.vitest
+
+# TypeScript build / output
+dist/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# Storybook
+storybook-static/
+
+
+# OS and tooling caches
+*.swp
+*.lock
+*.pid
+*.seed
+.cache/
+
+# Yarn / pnpm specific
+.pnpm-store/
+.pnp.cjs
+
+# Sentry & other keys (local)
+.sentryclirc
+.sentry/
+
+# CI / hosting
+.vercel/
+.now/
+netlify/
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# Local uploads and user content (do NOT commit uploaded user files)
+public/uploads/
+scripts/
+
+# Prisma client + generated artifacts
+# If you intentionally commit generated Prisma client, remove these lines
+src/generated/
+generated/
+.prisma/
+prisma/dev.db
