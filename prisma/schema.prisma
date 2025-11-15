@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  username     String   @unique
+  email        String   @unique
+  password     String
+  profileImage String? // optional profile image
+  bio          String? // short bio
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  tweets    Tweet[]
+  likes     Like[]
+  comments  Comment[]
+  followers Follow[]  @relation("followers")
+  following Follow[]  @relation("following")
+
+  receivedNotifications Notification[] @relation("ReceivedNotifications")
+  sentNotifications     Notification[] @relation("SentNotifications")
+}
+
+model Tweet {
+  id        String   @id @default(cuid())
+  content   String
+  image     String? // if user uploads an image or gif
+  createdAt DateTime @default(now())
+
+  // Relations
+  authorId String
+  author   User      @relation(fields: [authorId], references: [id])
+  likes    Like[]
+  comments Comment[]
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  userId    String
+  tweetId   String
+  createdAt DateTime @default(now())
+
+  // Relations
+  user  User  @relation(fields: [userId], references: [id])
+  tweet Tweet @relation(fields: [tweetId], references: [id])
+
+  @@unique([userId, tweetId]) // prevent duplicate likes
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+
+  userId  String
+  tweetId String
+
+  user  User  @relation(fields: [userId], references: [id])
+  tweet Tweet @relation(fields: [tweetId], references: [id])
+}
+
+model Follow {
+  id          String   @id @default(cuid())
+  followerId  String
+  followingId String
+  createdAt   DateTime @default(now())
+
+  follower  User @relation("followers", fields: [followerId], references: [id])
+  following User @relation("following", fields: [followingId], references: [id])
+
+  @@unique([followerId, followingId]) // prevent duplicate follows
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  type      String // e.g., "LIKE", "FOLLOW", "COMMENT"
+  message   String
+  createdAt DateTime @default(now())
+
+  recipientId String
+  senderId    String?
+
+  recipient User  @relation("ReceivedNotifications", fields: [recipientId], references: [id])
+  sender    User? @relation("SentNotifications", fields: [senderId], references: [id])
+}
